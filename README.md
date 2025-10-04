@@ -13,7 +13,7 @@ Users will be able to:
 
 ## Basic Architecture 
 
-![Top down overview](./basic_architecture.png)
+![Top down overview](./images/basic_architecture.png)
 
 ## Endpoints (Summary)
 
@@ -24,3 +24,5 @@ Users will be able to:
 | `/api/session/:sessionId` | `GET` | Fetches session metadata, question set, and progress. |
 | `/api/answer` | `POST` | Submits an answer and returns structured feedback. |
 | `/api/summarise` | `POST` | Summarises the session and provides overall feedback. |
+
+> See [`endpoints.md`](./docs/endpoints.md) for detailed request/response payloads, dependencies, and examples.
