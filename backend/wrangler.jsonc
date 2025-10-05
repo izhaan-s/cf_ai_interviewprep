@@ -28,6 +28,15 @@
 	"ai": {
 		"binding": "AI"
 	},
+	"kv_namespaces": [
+		{
+			"binding": "SESSIONS",
+			"id": "32d16b949fe5489c82b13b805a697207"
+		}
+	],
+	"vars": {
+		"DEFAULT_MODEL": "@hf/nousresearch/hermes-2-pro-mistral-7b"
+	},
 	/**
 	 * Environment Variables
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
