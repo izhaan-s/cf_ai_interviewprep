@@ -19,15 +19,22 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useInterviewForm } from "@/hooks/useInterviewForm"
-import { Briefcase, Building2, GraduationCap, Target } from "lucide-react"
+import { Briefcase, Building2, GraduationCap, Target, Loader2, AlertCircle } from "lucide-react"
 
 export function InterviewForm() {
-  const { form, onSubmit } = useInterviewForm()
+  const { form, onSubmit, isLoading, error } = useInterviewForm()
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
         {/* Company Field */}
         <FormField
           control={form.control}
@@ -161,8 +168,15 @@ export function InterviewForm() {
           )}
         />
 
-        <Button type="submit" className="w-full" size="lg">
-          Start Interview Prep
+        <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              Starting...
+            </>
+          ) : (
+            "Start Interview Prep"
+          )}
         </Button>
       </form>
     </Form>

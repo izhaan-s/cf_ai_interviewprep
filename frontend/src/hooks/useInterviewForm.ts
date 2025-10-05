@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 export const interviewFormSchema = z.object({
   company: z.string().min(2, {
@@ -23,6 +24,8 @@ export type InterviewFormValues = z.infer<typeof interviewFormSchema>
 
 export function useInterviewForm() {
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   
   const form = useForm<InterviewFormValues>({
     resolver: zodResolver(interviewFormSchema),
@@ -36,15 +39,42 @@ export function useInterviewForm() {
   })
 
   const onSubmit = async (data: InterviewFormValues) => {
-    console.log("Form submitted:", data)
-    // TODO: Send data to backend API
-    // For now, just navigate to interview page
-    // router.push('/interview')
+    setIsLoading(true)
+    setError(null)
+    
+    try {
+      const response = await fetch("/api/prep", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({})) as { error?: string }
+        throw new Error(errorData.error || "Failed to start interview prep")
+      }
+
+      const result = await response.json()
+      console.log("Prep session created:", result)
+      
+      // Navigate to interview page or wherever needed
+      // router.push(`/interview/${result.sessionId}`)
+      router.push('/interview')
+    } catch (err) {
+      console.error("Error submitting form:", err)
+      setError(err instanceof Error ? err.message : "An error occurred")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return {
     form,
     onSubmit,
+    isLoading,
+    error,
   }
 }
 
