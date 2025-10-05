@@ -17,13 +17,13 @@ Output ONLY valid JSON. No markdown, no explanations.`
       },
       {
         role: "user",
-        content: `Generate 5 interview questions for a ${role} role at ${profile.name}.
+        content: `Generate 5 interview questions for a ${role} role at ${profile.name || 'the company'}.
 
 Company context:
-- Values: ${profile.values.join(', ')}
-- Culture: ${profile.culture}
-- Mission: ${profile.mission}
-- Key Technologies: ${profile.key_technologies.join(', ')}
+- Values: ${profile.values?.join(', ') || 'Not specified'}
+- Culture: ${profile.culture || 'Not specified'}
+- Mission: ${profile.mission || 'Not specified'}
+- Key Technologies: ${profile.key_technologies?.join(', ') || 'Not specified'}
 
 Create a JSON array with this structure:
 [
