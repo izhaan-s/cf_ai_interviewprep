@@ -34,10 +34,10 @@ type SessionResponse = {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
-    const { sessionId } = params
+    const { sessionId } = await params
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8787"
 
     const response = await fetch(`${backendUrl}/api/session/${sessionId}`, {

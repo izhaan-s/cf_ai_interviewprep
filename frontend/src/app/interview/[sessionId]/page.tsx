@@ -12,9 +12,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2, AlertCircle, ArrowRight, CheckCircle } from "lucide-react"
 
 export default function InterviewPage() {
-  const params = useParams()
+  const params = useParams<{ sessionId: string }>()
   const router = useRouter()
-  const sessionId = params.sessionId as string
+  const sessionId = params.sessionId
 
   const {
     session,

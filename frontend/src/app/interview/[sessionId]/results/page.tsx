@@ -19,9 +19,9 @@ import {
 } from "lucide-react"
 
 export default function ResultsPage() {
-  const params = useParams()
+  const params = useParams<{ sessionId: string }>()
   const router = useRouter()
-  const sessionId = params.sessionId as string
+  const sessionId = params.sessionId
 
   const [session, setSession] = useState<Session | null>(null)
   const [isLoading, setIsLoading] = useState(true)

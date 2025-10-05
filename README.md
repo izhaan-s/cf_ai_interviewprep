@@ -48,6 +48,11 @@ npm run dev
 
 Navigate to http://localhost:3000/start to begin.
 
+## Live Demo
+
+**Live site:** https://cf-ai-interviewprep-frontend.interviewprepper.workers.dev
+
+
 ## Deployment
 
 ### Worker
