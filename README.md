@@ -122,10 +122,6 @@ cf_ai_interviewprep/
 └── README.md
 ```
 
-## AI Model
-
-Uses `@cf/meta/llama-3.1-8b-instruct` for all prompts. Total token usage per session is approximately 5,000-7,000 tokens across 7 API calls (1 research, 1 question generation, 5 answer evaluations).
-
 See [PROMPTS.MD](./PROMPTS.MD) for complete prompt documentation.
 
 
