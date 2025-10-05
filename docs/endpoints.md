@@ -2,8 +2,6 @@
 
 Complete reference for all backend API endpoints.
 
-Base URL: `https://young-bush-9a7a.interviewprepper.workers.dev`
-
 ## POST /api/prep
 
 Creates a new interview preparation session with AI-generated questions.
