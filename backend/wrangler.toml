@@ -1,12 +1,13 @@
-name = "interview-prep"
+name = "young-bush-9a7a"
 main = "src/index.ts"
 compatibility_date = "2025-04-01"
 
 [vars]
 DEFAULT_MODEL = "@hf/nousresearch/hermes-2-pro-mistral-7b"
-[ai]
 
+[ai]
 binding = "AI"  # exposes c.env.AI to your worker
 
-[miniflare]
-kv_persist = true
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "32d16b949fe5489c82b13b805a697207"
