@@ -56,12 +56,11 @@ export function useInterviewForm() {
         throw new Error(errorData.error || "Failed to start interview prep")
       }
 
-      const result = await response.json()
+      const result = await response.json() as { sessionId: string }
       console.log("Prep session created:", result)
       
-      // Navigate to interview page or wherever needed
-      // router.push(`/interview/${result.sessionId}`)
-      router.push('/interview')
+      // Navigate to interview page with session ID
+      router.push(`/interview/${result.sessionId}`)
     } catch (err) {
       console.error("Error submitting form:", err)
       setError(err instanceof Error ? err.message : "An error occurred")
