@@ -1,4 +1,4 @@
-import { truncateSmart } from "./util"
+import { truncateSmart } from "../util"
 
 export async function buildCompanyProfile(c: any, company: string) {
     const companySlug = company.toLowerCase().replace(/\s+/g, '')
@@ -41,8 +41,9 @@ export async function buildCompanyProfile(c: any, company: string) {
     console.log('Fetched content length:', content.length)
     
   // structured summary duhh
-  const resp = await c.env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
-    max_tokens: 2048,  // increase token limit to avoid truncation
+  const model = c.env.DEFAULT_MODEL || "@cf/meta/llama-3.1-8b-instruct"
+  const resp = await c.env.AI.run(model, {
+    max_tokens: 1024,  // reduced for stability in dev mode
     messages: [
       {
         role: "system",
@@ -104,8 +105,19 @@ Output only the JSON object.`
   try {
     return JSON.parse(text)
   } catch (err) {
-    
-    
+    console.error('Failed to parse company profile:', err)
+    return {
+      name: company,
+      summary: "",
+      values: [],
+      culture: "",
+      mission: "",
+      headquarters: "",
+      founded: "",
+      notable_projects: [],
+      key_technologies: [],
+      recent_achievements: []
+    }
   }
 }
   

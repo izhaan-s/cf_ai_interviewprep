@@ -2,7 +2,10 @@ name = "interview-prep"
 main = "src/index.ts"
 compatibility_date = "2025-04-01"
 
+[vars]
+DEFAULT_MODEL = "@hf/nousresearch/hermes-2-pro-mistral-7b"
 [ai]
+
 binding = "AI"  # exposes c.env.AI to your worker
 
 [miniflare]
