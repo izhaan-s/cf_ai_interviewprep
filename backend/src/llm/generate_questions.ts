@@ -1,5 +1,5 @@
 export async function generateQuestions(c: any, profile: any, role: string) {
-  const model = c.env.DEFAULT_MODEL || "@cf/meta/llama-3.1-8b-instruct"
+  const model = c.env.DEFAULT_MODEL || "@cf/openai/gpt-oss-120b"
   const resp = await c.env.AI.run(model, {
     max_tokens: 1024,
     messages: [
@@ -49,7 +49,16 @@ Output only the JSON array.`
     ]
   })
 
-  let text = typeof resp === "string" ? resp : (resp as any).response ?? JSON.stringify(resp)
+  // Handle different AI response formats
+  let text: string
+  if (typeof resp === "string") {
+    text = resp
+  } else if (resp && typeof resp === "object") {
+    // Try common response properties
+    text = (resp as any).response || (resp as any).text || (resp as any).content || JSON.stringify(resp)
+  } else {
+    text = String(resp)
+  }
 
   // extract JSON from markdown blocks
   const jsonMatch = text.match(/```(?:json)?\s*(\[[\s\S]*?\])\s*```/)
@@ -66,9 +75,12 @@ Output only the JSON array.`
 
   try {
     const questions = JSON.parse(text)
+    console.log(`✅ Successfully generated ${questions.length} questions`)
     return questions
   } catch (err) {
-    console.error('Failed to parse questions JSON:', err)
+    console.error('❌ Failed to parse questions JSON:', err)
+    console.error('Raw AI response:', JSON.stringify(resp).substring(0, 500))
+    console.error('Extracted text:', text.substring(0, 500))
     // fallback: return default questions
     return [
       {

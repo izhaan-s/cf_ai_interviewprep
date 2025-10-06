@@ -35,7 +35,7 @@
 		}
 	],
 	"vars": {
-		"DEFAULT_MODEL": "@hf/nousresearch/hermes-2-pro-mistral-7b"
+		"DEFAULT_MODEL": "@cf/meta/llama-3.1-8b-instruct"
 	},
 	/**
 	 * Environment Variables

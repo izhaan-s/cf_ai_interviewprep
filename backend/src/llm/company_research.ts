@@ -41,7 +41,7 @@ export async function buildCompanyProfile(c: any, company: string) {
     console.log('Fetched content length:', content.length)
     
   // structured summary duhh
-  const model = c.env.DEFAULT_MODEL || "@cf/meta/llama-3.1-8b-instruct"
+  const model = c.env.DEFAULT_MODEL || "@cf/openai/gpt-oss-120b"
   const resp = await c.env.AI.run(model, {
     max_tokens: 1024,  // reduced for stability in dev mode
     messages: [
@@ -87,7 +87,16 @@ Output only the JSON object.`
     ]
   })
 
-  let text = typeof resp === "string" ? resp : (resp as any).response ?? JSON.stringify(resp)
+  // Handle different AI response formats
+  let text: string
+  if (typeof resp === "string") {
+    text = resp
+  } else if (resp && typeof resp === "object") {
+    // Try common response properties
+    text = (resp as any).response || (resp as any).text || (resp as any).content || JSON.stringify(resp)
+  } else {
+    text = String(resp)
+  }
   
   // try to extract JSON from markdown code blocks if present
   const jsonMatch = text.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/)

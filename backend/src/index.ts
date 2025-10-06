@@ -86,7 +86,7 @@ app.post('/api/answer', async (c) => {
 
 	// evaluate the answer using AI
 	try {
-		const model = (c.env.DEFAULT_MODEL || "@cf/meta/llama-3.1-8b-instruct") as keyof AiModels
+		const model = (c.env.DEFAULT_MODEL || "@cf/openai/gpt-oss-120b") as keyof AiModels
 		const resp = await c.env.AI.run(model, {
 			max_tokens: 512,
 			messages: [
@@ -123,7 +123,15 @@ Evaluate this answer and output only the JSON object.`
 			]
 		})
 
-		let text = typeof resp === "string" ? resp : (resp as any).response ?? JSON.stringify(resp)
+		// Handle different AI response formats
+		let text: string
+		if (typeof resp === "string") {
+			text = resp
+		} else if (resp && typeof resp === "object") {
+			text = (resp as any).response || (resp as any).text || (resp as any).content || JSON.stringify(resp)
+		} else {
+			text = String(resp)
+		}
 
 		// extract JSON
 		const jsonMatch = text.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/)
@@ -198,7 +206,7 @@ Feedback: ${a.evaluation?.feedback || 'N/A'}
 ---`
 		}).join('\n')
 
-		const model = (c.env.DEFAULT_MODEL || "@cf/meta/llama-3.1-8b-instruct") as keyof AiModels
+		const model = (c.env.DEFAULT_MODEL || "@cf/openai/gpt-oss-120b") as keyof AiModels
 		const resp = await c.env.AI.run(model, {
 			max_tokens: 768,
 			messages: [
@@ -229,7 +237,15 @@ Provide overall feedback and output only the JSON object.`
 			]
 		})
 
-		let text = typeof resp === "string" ? resp : (resp as any).response ?? JSON.stringify(resp)
+		// Handle different AI response formats
+		let text: string
+		if (typeof resp === "string") {
+			text = resp
+		} else if (resp && typeof resp === "object") {
+			text = (resp as any).response || (resp as any).text || (resp as any).content || JSON.stringify(resp)
+		} else {
+			text = String(resp)
+		}
 
 		const jsonMatch = text.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/)
 		if (jsonMatch) text = jsonMatch[1]
