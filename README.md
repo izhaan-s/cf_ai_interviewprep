@@ -1,10 +1,13 @@
 # cf_ai_interviewprep
 
+AI-powered interview preparation tool built on Cloudflare Workers, Workers AI, and KV storage.
+
+[![Home Page](./images/thumbnail.png)](https://youtu.be/_0kPtM8-I1U)
+
 ## Live Demo
 
 **Live site:** https://cf-ai-interviewprep-frontend.interviewprepper.workers.dev
 
-AI-powered interview preparation tool built on Cloudflare Workers, Workers AI, and KV storage.
 
 ## What it does
 
