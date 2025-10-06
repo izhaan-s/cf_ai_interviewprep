@@ -6,7 +6,7 @@ AI-powered interview preparation tool built on Cloudflare Workers, Workers AI, a
 
 ## Live Demo
 
-**Live site:** https://cf-ai-interviewprep-frontend.interviewprepper.workers.dev
+**Live site:** https://cf-ai-interviewprep-frontend.interviewprepper.workers.dev/start
 
 
 ## What it does
